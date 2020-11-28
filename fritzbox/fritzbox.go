@@ -8,7 +8,7 @@ package fritzbox
 import (
 	"encoding/json"
 	"encoding/xml"
-	"errors"
+	"fmt"
 	"io"
 	"net/http"
 	"net/url"
@@ -104,7 +104,7 @@ func (c *Client) Do(req *http.Request, v interface{}) (*http.Response, error) {
 	defer resp.Body.Close()
 
 	if c := resp.StatusCode; 200 < c && c > 299 {
-		return nil, errors.New("Wrong status code")
+		return nil, fmt.Errorf("Wrong status code: %v", resp.StatusCode)
 	}
 
 	contentType := resp.Header.Get("Content-Type")
